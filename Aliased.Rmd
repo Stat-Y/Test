@@ -1,0 +1,36 @@
+---
+title: "Aliase"
+author: "Youngjin Cho"
+date: '2021 4 21 '
+output: pdf_document
+---
+
+Here is some R code that determines aliasing for a design based on the 12-run Hadamard matrix. You might want to try other subsets of the columns, and/or aliases for 3-factor or higher interactions. 
+
+#
+```{r}
+H12<-rbind(                                                                                                                                    
+  c(1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0),                                                                                                                  
+  c(0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1),                                                                                                                  
+  c(1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0),                                                                                                                  
+  c(0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0),                                                                                                                  
+  c(0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0),                                                                                                                  
+  c(0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1),                                                                                                                  
+  c(1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1),                                                                                                                  
+  c(1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1),                                                                                                                  
+  c(1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 0),                                                                                                                  
+  c(0, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1),                                                                                                                  
+  c(1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1),                                                                                                                  
+  c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+H12<-2*H12-1
+X1<-H12[,c(1:5)]
+X<-X1
+for (i in 1:4) { for (j in (i+1):5) {X<-cbind(X,X1[,i]*X1[,j])}}
+X
+X2<-X[,c(6:15)]
+X2
+AliasMat<-solve(t(X1)%*%X1)%*%t(X1)%*%X2
+AliasMatRnd<-round(AliasMat,3)
+AliasMatRnd
+```
+
